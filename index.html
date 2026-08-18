@@ -3,12 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>Hope You Are Having a Good Week</title>
+
+  <title>A Little Something For You ✦</title>
+
+  <!-- Link Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="A Little Something For You ✦">
+  <meta property="og:description" content="A tiny little journey through the week... made just for you ♡">
+  <meta property="og:image" content="cover%20image.png">
+  <meta property="og:image:alt" content="A little surprise ♡">
+
+  <!-- Twitter / Discord / Social Preview -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="A Little Something For You ✦">
+  <meta name="twitter:description" content="A tiny little journey through the week... made just for you ♡">
+  <meta name="twitter:image" content="cover%20image.png">
+
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Cinzel+Decorative:wght@700;900&family=Comic+Neue:wght@300;400;700&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+
   <style>
     :root { --paper:#fff9ef; --muted:#6b6b6b; --ink:#0b0b0b; --accent:#ffd54f; }
-    * { box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-    
+
+    * {
+      box-sizing:border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     html, body {
       margin: 0;
       padding: 0;
@@ -35,18 +55,18 @@
       background-size: 10px 10px;
     }
 
-    #scene { 
-      position: fixed; 
-      inset: 0; 
-      z-index: 0; 
-      width: 100%; 
-      height: 100%; 
+    #scene {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
     }
 
     /* Horizontal Carousel Container with Touch Snap */
-    .worlds { 
-      position: relative; 
+    .worlds {
+      position: relative;
       z-index: 2;
       display: flex;
       flex-direction: row;
@@ -59,10 +79,13 @@
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
-    .worlds::-webkit-scrollbar { display: none; }
+
+    .worlds::-webkit-scrollbar {
+      display: none;
+    }
 
     /* Comic panel card */
-    .world { 
+    .world {
       flex: 0 0 100vw;
       width: 100vw;
       height: 100svh;
@@ -76,48 +99,59 @@
       pointer-events: none;
     }
 
-    .copy { 
-      width: min(480px, 92vw); 
-      opacity: 0; 
-      transform: translateY(28px) scale(0.95); 
-      transition: opacity .4s ease, transform .5s cubic-bezier(.16,1,.3,1); 
+    .copy {
+      width: min(480px, 92vw);
+      opacity: 0;
+      transform: translateY(28px) scale(0.95);
+      transition: opacity .4s ease, transform .5s cubic-bezier(.16,1,.3,1);
       pointer-events: auto;
-      background: #fff; 
-      padding: clamp(16px, 4vw, 26px); 
-      border: 5px solid var(--ink); 
-      box-shadow: 8px 8px 0 rgba(0,0,0,0.85); 
+      background: #fff;
+      padding: clamp(16px, 4vw, 26px);
+      border: 5px solid var(--ink);
+      box-shadow: 8px 8px 0 rgba(0,0,0,0.85);
       border-radius: 8px;
       text-align: center;
     }
-    .world.active .copy { 
-      opacity: 1; 
-      transform: translateY(0) scale(1); 
+
+    .world.active .copy {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
 
     /* Big comic typography */
-    h1, h2 { 
-      margin: 0; 
-      font-family: 'Bangers', 'Comic Neue', Georgia, serif; 
-      color: var(--ink); 
-      line-height: .95; 
-      text-wrap: balance; 
-      text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(0,0,0,.9); 
+    h1, h2 {
+      margin: 0;
+      font-family: 'Bangers', 'Comic Neue', Georgia, serif;
+      color: var(--ink);
+      line-height: .95;
+      text-wrap: balance;
+      text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(0,0,0,.9);
     }
-    h1 { font-size: clamp(2rem, 7vw, 3.4rem); }
-    h2 { font-size: clamp(1.8rem, 6vw, 3rem); }
-    
+
+    h1 {
+      font-size: clamp(2rem, 7vw, 3.4rem);
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 6vw, 3rem);
+    }
+
     /* Full-screen intro video with sleek fade */
-    #introVideo { 
-      position: fixed; 
-      inset: 0; 
-      z-index: 10; 
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover; 
-      display: block; 
-      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s ease;
+    #introVideo {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition:
+        opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 1.2s ease;
       cursor: pointer;
     }
+
     #introVideo.fade-out {
       opacity: 0 !important;
       transform: scale(1.08);
@@ -133,45 +167,67 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at center, rgba(30, 8, 22, 0.88) 0%, rgba(5, 3, 8, 0.96) 100%);
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(30, 8, 22, 0.88) 0%,
+          rgba(5, 3, 8, 0.96) 100%
+        );
       backdrop-filter: blur(10px);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.6s ease;
       padding: 16px;
     }
+
     #introOverlay.active {
       opacity: 1;
       pointer-events: auto;
     }
+
     .intro-modal.goth-modal {
       width: min(500px, 92vw);
       background: #0d0811;
       border: 3px solid #77122b;
       outline: 1px solid #ff2255;
       outline-offset: -6px;
-      box-shadow: 0 0 35px rgba(255, 20, 80, 0.45), 0 0 15px rgba(0, 0, 0, 0.9), inset 0 0 40px rgba(0, 0, 0, 0.95);
+      box-shadow:
+        0 0 35px rgba(255, 20, 80, 0.45),
+        0 0 15px rgba(0, 0, 0, 0.9),
+        inset 0 0 40px rgba(0, 0, 0, 0.95);
       border-radius: 4px;
       padding: clamp(24px, 5vw, 36px);
       text-align: center;
       position: relative;
       transform: translateY(25px) scale(0.94);
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+      transition:
+        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.5s ease;
     }
+
     #introOverlay.active .intro-modal.goth-modal {
       transform: translateY(0) scale(1);
     }
-    
+
     /* Goth Corner Accents */
-    .goth-modal::before, .goth-modal::after {
+    .goth-modal::before,
+    .goth-modal::after {
       content: '✦';
       position: absolute;
       color: #ff3366;
       font-size: 1.2rem;
       text-shadow: 0 0 8px #ff2255;
     }
-    .goth-modal::before { top: 8px; left: 12px; }
-    .goth-modal::after { bottom: 8px; right: 12px; }
+
+    .goth-modal::before {
+      top: 8px;
+      left: 12px;
+    }
+
+    .goth-modal::after {
+      bottom: 8px;
+      right: 12px;
+    }
 
     .goth-crest {
       font-family: 'Cinzel Decorative', Georgia, serif;
@@ -192,8 +248,11 @@
       margin: 14px 0 24px;
       min-height: 2.8em;
       color: #f3e8f8;
-      text-shadow: 0 0 12px rgba(255, 30, 86, 0.75), 2px 2px 4px #000;
+      text-shadow:
+        0 0 12px rgba(255, 30, 86, 0.75),
+        2px 2px 4px #000;
     }
+
     .typewriter-cursor.goth-cursor {
       display: inline-block;
       width: 3px;
@@ -204,12 +263,21 @@
       margin-left: 5px;
       animation: gothBlink 0.8s step-start infinite;
     }
-    @keyframes gothBlink { 50% { opacity: 0; } }
+
+    @keyframes gothBlink {
+      50% {
+        opacity: 0;
+      }
+    }
 
     .space-btn.goth-btn {
       appearance: none;
       border: 2px solid #ff2255;
-      background: linear-gradient(135deg, #240817 0%, #12030d 100%);
+      background: linear-gradient(
+        135deg,
+        #240817 0%,
+        #12030d 100%
+      );
       color: #f7e1ee;
       font-family: 'Cinzel Decorative', Georgia, serif;
       font-size: 1.05rem;
@@ -219,130 +287,248 @@
       padding: 14px 30px;
       cursor: pointer;
       border-radius: 2px;
-      box-shadow: 0 0 18px rgba(255, 34, 85, 0.4), inset 0 0 12px rgba(255, 34, 85, 0.2);
+      box-shadow:
+        0 0 18px rgba(255, 34, 85, 0.4),
+        inset 0 0 12px rgba(255, 34, 85, 0.2);
       transition: all 0.25s ease;
       opacity: 0;
       pointer-events: none;
       transform: translateY(10px);
     }
+
     .space-btn.goth-btn.show {
       opacity: 1;
       pointer-events: auto;
       transform: translateY(0);
     }
+
     .space-btn.goth-btn:hover {
-      background: linear-gradient(135deg, #440c26 0%, #200414 100%);
-      box-shadow: 0 0 25px rgba(255, 34, 85, 0.75), inset 0 0 16px rgba(255, 34, 85, 0.4);
+      background: linear-gradient(
+        135deg,
+        #440c26 0%,
+        #200414 100%
+      );
+      box-shadow:
+        0 0 25px rgba(255, 34, 85, 0.75),
+        inset 0 0 16px rgba(255, 34, 85, 0.4);
       color: #fff;
       border-color: #ff5588;
       transform: translateY(-2px);
     }
+
     .space-btn.goth-btn:active {
       transform: translateY(2px);
       box-shadow: 0 0 10px rgba(255, 34, 85, 0.6);
     }
-    
+
     /* Horizontal Bottom Pill Navigation */
-    .nav { 
-      position: fixed; 
-      z-index: 5; 
-      bottom: 12px; 
-      left: 50%; 
-      transform: translateX(-50%); 
-      display: flex; 
-      gap: 10px; 
+    .nav {
+      position: fixed;
+      z-index: 5;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
       background: rgba(0, 0, 0, 0.45);
       padding: 6px 14px;
       border-radius: 20px;
       backdrop-filter: blur(4px);
     }
-    .nav a { 
-      width: 10px; 
-      height: 10px; 
-      border: 2px solid #fff; 
-      border-radius: 50%; 
-      opacity: .45; 
-      background: transparent; 
-      transition: all .25s cubic-bezier(0.16, 1, 0.3, 1); 
+
+    .nav a {
+      width: 10px;
+      height: 10px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      opacity: .45;
+      background: transparent;
+      transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .nav a.active { 
-      opacity: 1; 
-      background: #ffd54f; 
-      border-color: #000; 
-      transform: scale(1.3); 
-      box-shadow: 0 0 10px #ffd54f; 
+
+    .nav a.active {
+      opacity: 1;
+      background: #ffd54f;
+      border-color: #000;
+      transform: scale(1.3);
+      box-shadow: 0 0 10px #ffd54f;
     }
   </style>
 </head>
+
 <body>
+
   <canvas id="scene" aria-hidden="true"></canvas>
-  <video id="introVideo" src="garden.mp4" muted playsinline autoplay aria-hidden="true"></video>
+
+  <video
+    id="introVideo"
+    src="garden.mp4"
+    muted
+    playsinline
+    autoplay
+    aria-hidden="true">
+  </video>
 
   <!-- Goth-Themed Typewriter Pop-up Modal -->
   <div id="introOverlay">
     <div class="intro-modal goth-modal">
       <div class="goth-crest">🦇 Weekday Transmission 🦇</div>
-      <div class="typewriter-text goth-text"><span id="typedTarget"></span><span class="typewriter-cursor goth-cursor"></span></div>
-      <button class="space-btn goth-btn" id="launchBtn">✦ Enter The Galaxy ✦</button>
+
+      <div class="typewriter-text goth-text">
+        <span id="typedTarget"></span>
+        <span class="typewriter-cursor goth-cursor"></span>
+      </div>
+
+      <button class="space-btn goth-btn" id="launchBtn">
+        ✦ Enter The Galaxy ✦
+      </button>
     </div>
   </div>
 
   <main class="worlds" id="worldsContainer">
+
     <!-- 1. Sunday Nap -->
-    <section class="world active" id="sunday" data-image="ineedmydiabolicalnaptime.png" data-color="#f5df8d" data-neon="#ffeb60" data-bg="#161205" style="--accent:#fff0aa">
+    <section
+      class="world active"
+      id="sunday"
+      data-image="ineedmydiabolicalnaptime.png"
+      data-color="#f5df8d"
+      data-neon="#ffeb60"
+      data-bg="#161205"
+      style="--accent:#fff0aa">
+
       <div class="copy">
-        <h1>The Diabolical<br>Nap</h1>
+        <h1>
+          The Diabolical<br>
+          Nap
+        </h1>
       </div>
     </section>
 
     <!-- 2. Beef & Rice Prep -->
-    <section class="world" id="monday" data-image="youknowwhattimeitis.png" data-color="#7288c9" data-neon="#4d88ff" data-bg="#090f21" style="--accent:#aabaff">
+    <section
+      class="world"
+      id="monday"
+      data-image="youknowwhattimeitis.png"
+      data-color="#7288c9"
+      data-neon="#4d88ff"
+      data-bg="#090f21"
+      style="--accent:#aabaff">
+
       <div class="copy">
-        <h2>Ground Beef & Rice<br>Meal Prep</h2>
+        <h2>
+          Ground Beef & Rice<br>
+          Meal Prep
+        </h2>
       </div>
     </section>
 
     <!-- 3. Kitchen Meal Prep Mindset -->
-    <section class="world" id="kitchen" data-image="dontmindme.png" data-color="#ff7b54" data-neon="#ff5722" data-bg="#1a0a05" style="--accent:#ffaa91">
+    <section
+      class="world"
+      id="kitchen"
+      data-image="dontmindme.png"
+      data-color="#ff7b54"
+      data-neon="#ff5722"
+      data-bg="#1a0a05"
+      style="--accent:#ffaa91">
+
       <div class="copy">
-        <h2>Don't Mind Me</h2>
+        <h2>
+          Don't Mind Me
+        </h2>
       </div>
     </section>
 
     <!-- 4. Fold Game Challenge -->
-    <section class="world" id="fold-attempt" data-image="myfoldgameisbetterthanhisyoullsee....png" data-color="#4fc3f7" data-neon="#00e5ff" data-bg="#03141f" style="--accent:#9de3ff">
+    <section
+      class="world"
+      id="fold-attempt"
+      data-image="myfoldgameisbetterthanhisyoullsee....png"
+      data-color="#4fc3f7"
+      data-neon="#00e5ff"
+      data-bg="#03141f"
+      style="--accent:#9de3ff">
+
       <div class="copy">
-        <h2>Lets get some of<br>this finished</h2>
+        <h2>
+          Lets get some of<br>
+          this finished
+        </h2>
       </div>
     </section>
 
     <!-- 5. Nap in Laundry Pile -->
-    <section class="world" id="tuesday" data-image="imightaswelltakeanothernapwhileimhere.png" data-color="#e34242" data-neon="#ff3355" data-bg="#1a0407" style="--accent:#ff8585">
+    <section
+      class="world"
+      id="tuesday"
+      data-image="imightaswelltakeanothernapwhileimhere.png"
+      data-color="#e34242"
+      data-neon="#ff3355"
+      data-bg="#1a0407"
+      style="--accent:#ff8585">
+
       <div class="copy">
-        <h2>Nah<br>ima take another nap</h2>
+        <h2>
+          Nah<br>
+          ima take another nap
+        </h2>
       </div>
     </section>
 
     <!-- 6. Weekend Near & CaseOH -->
-    <section class="world" id="thursday" data-image="whothehellputschristmaslightsontherebed.png" data-color="#69d6a6" data-neon="#00ffaa" data-bg="#041710" style="--accent:#9ff2c7">
+    <section
+      class="world"
+      id="thursday"
+      data-image="whothehellputschristmaslightsontherebed.png"
+      data-color="#69d6a6"
+      data-neon="#00ffaa"
+      data-bg="#041710"
+      style="--accent:#9ff2c7">
+
       <div class="copy">
-        <h2>CaseOh Stream Time</h2>
+        <h2>
+          CaseOh Stream Time
+        </h2>
       </div>
     </section>
 
     <!-- 7. Fold Game Challenge Investigation -->
-    <section class="world" id="friday" data-image="yea thats never getting done.png" data-color="#ffb84a" data-neon="#ffaa00" data-bg="#1f1100" style="--accent:#ffdb8e">
+    <section
+      class="world"
+      id="friday"
+      data-image="yea thats never getting done.png"
+      data-color="#ffb84a"
+      data-neon="#ffaa00"
+      data-bg="#1f1100"
+      style="--accent:#ffdb8e">
+
       <div class="copy">
-        <h2>oh no<br>not again</h2>
+        <h2>
+          oh no<br>
+          not again
+        </h2>
       </div>
     </section>
 
     <!-- 8. Jolly Ollies 4 AM -->
-    <section class="world" id="saturday" data-image="nevergoingtojollyolliestill4amagain.png" data-color="#ff9b74" data-neon="#ff5533" data-bg="#1e0c08" style="--accent:#ffc0a9">
+    <section
+      class="world"
+      id="saturday"
+      data-image="nevergoingtojollyolliestill4amagain.png"
+      data-color="#ff9b74"
+      data-neon="#ff5533"
+      data-bg="#1e0c08"
+      style="--accent:#ffc0a9">
+
       <div class="copy">
-        <h2>4:00 AM Jolly Ollies<br>that kid cant even hit the dart board</h2>
+        <h2>
+          4:00 AM Jolly Ollies<br>
+          that kid cant even hit the dart board
+        </h2>
       </div>
     </section>
+
   </main>
 
   <nav class="nav" aria-label="Day navigation">
@@ -357,291 +543,896 @@
   </nav>
 
   <script type="module">
-    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js';
+
+    import * as THREE from
+      'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js';
 
     const canvas = document.querySelector('#scene');
     const container = document.querySelector('#worldsContainer');
     const sections = [...document.querySelectorAll('.world')];
     const dots = [...document.querySelectorAll('.nav a')];
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true
+    });
+
+    renderer.setPixelRatio(
+      Math.min(window.devicePixelRatio, 2)
+    );
+
+    renderer.setSize(
+      window.innerWidth,
+      window.innerHeight
+    );
+
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    );
+
     camera.position.z = 13;
 
-    // Background Twinkling Stardust
-    const starsGeo = new THREE.BufferGeometry();
-    const starCount = 650;
-    const starCoords = new Float32Array(starCount * 3);
-    for (let i = 0; i < starCoords.length; i += 3) {
-      starCoords[i] = (Math.random() - 0.5) * 45;
-      starCoords[i + 1] = (Math.random() - 0.5) * 35;
-      starCoords[i + 2] = -Math.random() * 30;
-    }
-    starsGeo.setAttribute('position', new THREE.BufferAttribute(starCoords, 3));
-    const starMat = new THREE.PointsMaterial({ color: '#ffffff', size: 0.055, transparent: true, opacity: 0.85 });
-    scene.add(new THREE.Points(starsGeo, starMat));
+    /* Background Twinkling Stardust */
 
-    // Neon Glow Texture Generator
+    const starsGeo = new THREE.BufferGeometry();
+
+    const starCount = 650;
+
+    const starCoords =
+      new Float32Array(starCount * 3);
+
+    for (
+      let i = 0;
+      i < starCoords.length;
+      i += 3
+    ) {
+
+      starCoords[i] =
+        (Math.random() - 0.5) * 45;
+
+      starCoords[i + 1] =
+        (Math.random() - 0.5) * 35;
+
+      starCoords[i + 2] =
+        -Math.random() * 30;
+    }
+
+    starsGeo.setAttribute(
+      'position',
+      new THREE.BufferAttribute(
+        starCoords,
+        3
+      )
+    );
+
+    const starMat =
+      new THREE.PointsMaterial({
+        color: '#ffffff',
+        size: 0.055,
+        transparent: true,
+        opacity: 0.85
+      });
+
+    scene.add(
+      new THREE.Points(
+        starsGeo,
+        starMat
+      )
+    );
+
+    /* Neon Glow Texture Generator */
+
     function createNeonTexture(hexColor) {
-      const c = document.createElement('canvas');
+
+      const c =
+        document.createElement('canvas');
+
       c.width = 512;
       c.height = 512;
+
       const ctx = c.getContext('2d');
-      const grad = ctx.createRadialGradient(256, 256, 170, 256, 256, 256);
-      grad.addColorStop(0, hexColor);
-      grad.addColorStop(0.35, hexColor);
-      grad.addColorStop(0.7, hexColor.replace(')', ', 0.4)').replace('rgb', 'rgba'));
-      grad.addColorStop(1, 'rgba(0,0,0,0)');
-      
+
+      const grad =
+        ctx.createRadialGradient(
+          256,
+          256,
+          170,
+          256,
+          256,
+          256
+        );
+
+      grad.addColorStop(
+        0,
+        hexColor
+      );
+
+      grad.addColorStop(
+        0.35,
+        hexColor
+      );
+
+      grad.addColorStop(
+        0.7,
+        hexColor
+          .replace(')', ', 0.4)')
+          .replace('rgb', 'rgba')
+      );
+
+      grad.addColorStop(
+        1,
+        'rgba(0,0,0,0)'
+      );
+
       ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 512, 512);
+
+      ctx.fillRect(
+        0,
+        0,
+        512,
+        512
+      );
+
       return new THREE.CanvasTexture(c);
     }
 
-    const textureLoader = new THREE.TextureLoader();
-    function makePlanet(ref, fallbackColor) {
-      if (!ref) return { type: 'none', material: new THREE.MeshBasicMaterial({ color: fallbackColor }) };
-      const tex = textureLoader.load(ref, (t) => {
-        t.colorSpace = THREE.SRGBColorSpace;
-      });
+    const textureLoader =
+      new THREE.TextureLoader();
+
+    function makePlanet(
+      ref,
+      fallbackColor
+    ) {
+
+      if (!ref) {
+
+        return {
+          type: 'none',
+          material:
+            new THREE.MeshBasicMaterial({
+              color: fallbackColor
+            })
+        };
+      }
+
+      const tex =
+        textureLoader.load(
+          ref,
+          (t) => {
+            t.colorSpace =
+              THREE.SRGBColorSpace;
+          }
+        );
+
       tex.flipY = true;
-      tex.colorSpace = THREE.SRGBColorSpace;
-      return { type: 'image', material: new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }) };
+
+      tex.colorSpace =
+        THREE.SRGBColorSpace;
+
+      return {
+        type: 'image',
+        material:
+          new THREE.MeshBasicMaterial({
+            map: tex,
+            side: THREE.DoubleSide
+          })
+      };
     }
 
-    const isMobilePortrait = window.innerWidth < window.innerHeight;
-    const planetRadius = isMobilePortrait ? 2.2 : 2.8;
+    const isMobilePortrait =
+      window.innerWidth <
+      window.innerHeight;
 
-    // Build planet meshes with neon glow rings
-    const planets = sections.map((section, index) => {
-      const ref = section.dataset.image || '';
-      const baseColor = new THREE.Color(section.dataset.color || '#ffffff');
-      const neonColor = section.dataset.neon || '#00ffff';
-      
-      const p = makePlanet(ref, baseColor);
-      const group = new THREE.Group();
+    const planetRadius =
+      isMobilePortrait
+        ? 2.2
+        : 2.8;
 
-      const glowMat = new THREE.SpriteMaterial({
-        map: createNeonTexture(neonColor),
-        color: new THREE.Color(neonColor),
-        transparent: true,
-        opacity: 0.85,
-        blending: THREE.AdditiveBlending
-      });
-      const glowSprite = new THREE.Sprite(glowMat);
-      glowSprite.scale.set(planetRadius * 2.7, planetRadius * 2.7, 1);
-      glowSprite.position.z = -0.15;
-      group.add(glowSprite);
+    /* Build planet meshes with neon glow rings */
 
-      const ringGeo = new THREE.RingGeometry(planetRadius * 1.03, planetRadius * 1.08, 64);
-      const ringMat = new THREE.MeshBasicMaterial({
-        color: new THREE.Color(neonColor),
-        side: THREE.DoubleSide,
-        transparent: true,
-        opacity: 0.95,
-        blending: THREE.AdditiveBlending
-      });
-      const orbitRing = new THREE.Mesh(ringGeo, ringMat);
-      orbitRing.position.z = -0.05;
-      group.add(orbitRing);
+    const planets =
+      sections.map(
+        (section, index) => {
 
-      const planetMesh = new THREE.Mesh(new THREE.CircleGeometry(planetRadius, 64), p.material);
-      group.add(planetMesh);
+          const ref =
+            section.dataset.image || '';
 
-      group.scale.setScalar(4.5);
-      scene.add(group);
+          const baseColor =
+            new THREE.Color(
+              section.dataset.color ||
+              '#ffffff'
+            );
 
-      return { 
-        group, 
-        glowSprite, 
-        orbitRing, 
-        index, 
-        neonColor: new THREE.Color(neonColor)
-      };
-    });
+          const neonColor =
+            section.dataset.neon ||
+            '#00ffff';
 
-    let target = 0, smooth = 0, active = -1;
-    let scrollVelocity = 0, lastSmooth = 0;
+          const p =
+            makePlanet(
+              ref,
+              baseColor
+            );
+
+          const group =
+            new THREE.Group();
+
+          const glowMat =
+            new THREE.SpriteMaterial({
+              map:
+                createNeonTexture(
+                  neonColor
+                ),
+              color:
+                new THREE.Color(
+                  neonColor
+                ),
+              transparent: true,
+              opacity: 0.85,
+              blending:
+                THREE.AdditiveBlending
+            });
+
+          const glowSprite =
+            new THREE.Sprite(
+              glowMat
+            );
+
+          glowSprite.scale.set(
+            planetRadius * 2.7,
+            planetRadius * 2.7,
+            1
+          );
+
+          glowSprite.position.z =
+            -0.15;
+
+          group.add(
+            glowSprite
+          );
+
+          const ringGeo =
+            new THREE.RingGeometry(
+              planetRadius * 1.03,
+              planetRadius * 1.08,
+              64
+            );
+
+          const ringMat =
+            new THREE.MeshBasicMaterial({
+              color:
+                new THREE.Color(
+                  neonColor
+                ),
+              side:
+                THREE.DoubleSide,
+              transparent: true,
+              opacity: 0.95,
+              blending:
+                THREE.AdditiveBlending
+            });
+
+          const orbitRing =
+            new THREE.Mesh(
+              ringGeo,
+              ringMat
+            );
+
+          orbitRing.position.z =
+            -0.05;
+
+          group.add(
+            orbitRing
+          );
+
+          const planetMesh =
+            new THREE.Mesh(
+              new THREE.CircleGeometry(
+                planetRadius,
+                64
+              ),
+              p.material
+            );
+
+          group.add(
+            planetMesh
+          );
+
+          group.scale.setScalar(4.5);
+
+          scene.add(group);
+
+          return {
+            group,
+            glowSprite,
+            orbitRing,
+            index,
+            neonColor:
+              new THREE.Color(
+                neonColor
+              )
+          };
+        }
+      );
+
+    let target = 0;
+    let smooth = 0;
+    let active = -1;
+
+    let scrollVelocity = 0;
+    let lastSmooth = 0;
 
     function update() {
-      const scrollLeft = container.scrollLeft;
-      const width = container.clientWidth || window.innerWidth;
-      target = Math.max(0, Math.min(sections.length - 1, scrollLeft / width));
-      
-      const next = Math.round(target);
-      sections.forEach((s, i) => s.classList.toggle('active', i === next));
-      dots.forEach((d, i) => d.classList.toggle('active', i === next));
-      
+
+      const scrollLeft =
+        container.scrollLeft;
+
+      const width =
+        container.clientWidth ||
+        window.innerWidth;
+
+      target =
+        Math.max(
+          0,
+          Math.min(
+            sections.length - 1,
+            scrollLeft / width
+          )
+        );
+
+      const next =
+        Math.round(target);
+
+      sections.forEach(
+        (s, i) =>
+          s.classList.toggle(
+            'active',
+            i === next
+          )
+      );
+
+      dots.forEach(
+        (d, i) =>
+          d.classList.toggle(
+            'active',
+            i === next
+          )
+      );
+
       if (sections[next]) {
-        document.body.style.background = sections[next].dataset.bg;
+
+        document.body.style.background =
+          sections[next].dataset.bg;
       }
+
       active = next;
     }
 
-    container.addEventListener('scroll', update, { passive: true });
-    
-    dots.forEach((dot, idx) => {
-      dot.addEventListener('click', (e) => {
-        e.preventDefault();
-        container.scrollTo({
-          left: idx * container.clientWidth,
-          behavior: 'smooth'
-        });
-      });
-    });
+    container.addEventListener(
+      'scroll',
+      update,
+      { passive: true }
+    );
 
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      update();
-    });
+    dots.forEach(
+      (dot, idx) => {
+
+        dot.addEventListener(
+          'click',
+          (e) => {
+
+            e.preventDefault();
+
+            container.scrollTo({
+              left:
+                idx *
+                container.clientWidth,
+              behavior: 'smooth'
+            });
+          }
+        );
+      }
+    );
+
+    window.addEventListener(
+      'resize',
+      () => {
+
+        camera.aspect =
+          window.innerWidth /
+          window.innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+          window.innerWidth,
+          window.innerHeight
+        );
+
+        update();
+      }
+    );
+
     update();
 
-    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-    const easeOutBack = (t) => {
-      const c1 = 1.6;
-      const c3 = c1 + 1;
-      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
-    };
+    const clamp =
+      (v, min, max) =>
+        Math.max(
+          min,
+          Math.min(max, v)
+        );
 
-    let introActive = false, introStart = 0, introDuration = 1400, introPlayed = false;
-    const introVideo = document.getElementById('introVideo');
-    const introOverlay = document.getElementById('introOverlay');
-    const typedTarget = document.getElementById('typedTarget');
-    const launchBtn = document.getElementById('launchBtn');
+    const easeOutBack =
+      (t) => {
+
+        const c1 = 1.6;
+        const c3 = c1 + 1;
+
+        return (
+          1 +
+          c3 *
+          Math.pow(t - 1, 3) +
+          c1 *
+          Math.pow(t - 1, 2)
+        );
+      };
+
+    let introActive = false;
+    let introStart = 0;
+    let introDuration = 1400;
+    let introPlayed = false;
+
+    const introVideo =
+      document.getElementById(
+        'introVideo'
+      );
+
+    const introOverlay =
+      document.getElementById(
+        'introOverlay'
+      );
+
+    const typedTarget =
+      document.getElementById(
+        'typedTarget'
+      );
+
+    const launchBtn =
+      document.getElementById(
+        'launchBtn'
+      );
 
     function draw() {
+
       requestAnimationFrame(draw);
-      
+
       lastSmooth = smooth;
-      smooth += (target - smooth) * 0.1;
-      scrollVelocity = Math.abs(smooth - lastSmooth) * 45;
 
-      const now = performance.now();
-      const timeSec = now * 0.002;
+      smooth +=
+        (target - smooth) * 0.1;
 
-      starMat.opacity = 0.65 + Math.sin(timeSec * 2) * 0.25;
+      scrollVelocity =
+        Math.abs(
+          smooth - lastSmooth
+        ) * 45;
 
-      const isMobile = window.innerWidth < window.innerHeight;
-      const verticalElevation = isMobile ? 1.5 : 0.4;
-      const horizontalSpacing = isMobile ? 7.8 : 10.5;
+      const now =
+        performance.now();
 
-      planets.forEach(({ group, glowSprite, orbitRing, index, neonColor }) => {
-        const offset = smooth - index;
-        const clamped = Math.max(-1, Math.min(1, offset));
-        const distance = Math.abs(clamped);
+      const timeSec =
+        now * 0.002;
 
-        const posX = -clamped * horizontalSpacing;
-        const posY = verticalElevation + Math.cos(clamped * Math.PI * 0.5) * 0.5;
-        const posZ = -distance * 4.5;
-        
-        group.position.set(posX, posY, posZ);
+      starMat.opacity =
+        0.65 +
+        Math.sin(
+          timeSec * 2
+        ) * 0.25;
 
-        const baseScale = Math.max(0.45, 1 - distance * 0.38);
+      const isMobile =
+        window.innerWidth <
+        window.innerHeight;
 
-        if (!introPlayed) {
-          if (introActive) {
-            const delay = index * 80;
-            const localT = clamp((now - introStart - delay) / introDuration, 0, 1);
-            const ease = easeOutBack(localT);
-            const finalScale = 4.5 + (baseScale - 4.5) * ease;
-            group.scale.setScalar(Math.max(0.01, finalScale));
-            group.rotation.z = (1 - ease) * 0.6 * (index % 2 ? 1 : -1);
+      const verticalElevation =
+        isMobile
+          ? 1.5
+          : 0.4;
+
+      const horizontalSpacing =
+        isMobile
+          ? 7.8
+          : 10.5;
+
+      planets.forEach(
+        ({
+          group,
+          glowSprite,
+          orbitRing,
+          index,
+          neonColor
+        }) => {
+
+          const offset =
+            smooth - index;
+
+          const clamped =
+            Math.max(
+              -1,
+              Math.min(1, offset)
+            );
+
+          const distance =
+            Math.abs(clamped);
+
+          const posX =
+            -clamped *
+            horizontalSpacing;
+
+          const posY =
+            verticalElevation +
+            Math.cos(
+              clamped *
+              Math.PI *
+              0.5
+            ) *
+            0.5;
+
+          const posZ =
+            -distance * 4.5;
+
+          group.position.set(
+            posX,
+            posY,
+            posZ
+          );
+
+          const baseScale =
+            Math.max(
+              0.45,
+              1 -
+              distance * 0.38
+            );
+
+          if (!introPlayed) {
+
+            if (introActive) {
+
+              const delay =
+                index * 80;
+
+              const localT =
+                clamp(
+                  (
+                    now -
+                    introStart -
+                    delay
+                  ) /
+                  introDuration,
+                  0,
+                  1
+                );
+
+              const ease =
+                easeOutBack(
+                  localT
+                );
+
+              const finalScale =
+                4.5 +
+                (
+                  baseScale -
+                  4.5
+                ) *
+                ease;
+
+              group.scale.setScalar(
+                Math.max(
+                  0.01,
+                  finalScale
+                )
+              );
+
+              group.rotation.z =
+                (
+                  1 - ease
+                ) *
+                0.6 *
+                (
+                  index % 2
+                    ? 1
+                    : -1
+                );
+
+            } else {
+
+              group.scale.setScalar(
+                4.5
+              );
+            }
+
           } else {
-            group.scale.setScalar(4.5);
+
+            group.scale.setScalar(
+              baseScale
+            );
+
+            group.rotation.z = 0;
           }
-        } else {
-          group.scale.setScalar(baseScale);
-          group.rotation.z = 0;
+
+          orbitRing.rotation.z =
+            timeSec *
+            (
+              index % 2 === 0
+                ? 1
+                : -1
+            ) +
+            smooth * 1.5;
+
+          const ringPulse =
+            1 +
+            Math.sin(
+              timeSec * 4 +
+              index
+            ) *
+            0.04 +
+            scrollVelocity *
+            0.08;
+
+          orbitRing.scale.set(
+            ringPulse,
+            ringPulse,
+            1
+          );
+
+          orbitRing.material.opacity =
+            clamp(
+              0.5 +
+              scrollVelocity * 0.6 -
+              distance * 0.4,
+              0.2,
+              1.0
+            );
+
+          const glowPulse =
+            (
+              planetRadius *
+              2.7
+            ) +
+            Math.sin(
+              timeSec * 3 +
+              index
+            ) *
+            0.2 +
+            scrollVelocity *
+            1.8;
+
+          glowSprite.scale.set(
+            glowPulse,
+            glowPulse,
+            1
+          );
+
+          glowSprite.material.opacity =
+            clamp(
+              (
+                1 -
+                distance * 0.7
+              ) *
+              (
+                0.65 +
+                scrollVelocity *
+                0.5
+              ),
+              0.15,
+              1.0
+            );
+
+          if (
+            scrollVelocity >
+            0.1
+          ) {
+
+            glowSprite.material.color
+              .setHSL(
+                (
+                  neonColor.getHSL({
+                    h: 0,
+                    s: 0,
+                    l: 0
+                  }).h +
+                  scrollVelocity *
+                  0.05
+                ) % 1,
+                1,
+                0.6
+              );
+
+          } else {
+
+            glowSprite.material.color
+              .copy(neonColor);
+          }
+
+          group.visible =
+            distance < 1.35;
         }
+      );
 
-        orbitRing.rotation.z = timeSec * (index % 2 === 0 ? 1 : -1) + smooth * 1.5;
-        const ringPulse = 1 + Math.sin(timeSec * 4 + index) * 0.04 + scrollVelocity * 0.08;
-        orbitRing.scale.set(ringPulse, ringPulse, 1);
-        orbitRing.material.opacity = clamp(0.5 + scrollVelocity * 0.6 - distance * 0.4, 0.2, 1.0);
-
-        const glowPulse = (planetRadius * 2.7) + Math.sin(timeSec * 3 + index) * 0.2 + scrollVelocity * 1.8;
-        glowSprite.scale.set(glowPulse, glowPulse, 1);
-        glowSprite.material.opacity = clamp((1 - distance * 0.7) * (0.65 + scrollVelocity * 0.5), 0.15, 1.0);
-
-        if (scrollVelocity > 0.1) {
-          glowSprite.material.color.setHSL((neonColor.getHSL({h:0,s:0,l:0}).h + scrollVelocity * 0.05) % 1, 1, 0.6);
-        } else {
-          glowSprite.material.color.copy(neonColor);
-        }
-
-        group.visible = distance < 1.35;
-      });
-
-      renderer.render(scene, camera);
+      renderer.render(
+        scene,
+        camera
+      );
     }
+
     draw();
 
-    // Typewriter effect controller with Goth-formatted text
+    /* Typewriter effect controller with Goth-formatted text */
+
     let modalOpened = false;
-    const messageText = "Hope your week is going well... here is some pure cinema.";
+
+    const messageText =
+      "Hope your week is going well... here is some pure cinema.";
 
     function showPopUp() {
-      if (modalOpened || introPlayed) return;
+
+      if (
+        modalOpened ||
+        introPlayed
+      ) {
+        return;
+      }
+
       modalOpened = true;
-      introOverlay.classList.add('active');
+
+      introOverlay.classList.add(
+        'active'
+      );
 
       let charIdx = 0;
+
       function typeNextChar() {
-        if (charIdx < messageText.length) {
-          typedTarget.textContent += messageText.charAt(charIdx);
+
+        if (
+          charIdx <
+          messageText.length
+        ) {
+
+          typedTarget.textContent +=
+            messageText.charAt(
+              charIdx
+            );
+
           charIdx++;
-          setTimeout(typeNextChar, 42);
+
+          setTimeout(
+            typeNextChar,
+            42
+          );
+
         } else {
-          launchBtn.classList.add('show');
+
+          launchBtn.classList.add(
+            'show'
+          );
         }
       }
-      setTimeout(typeNextChar, 350);
+
+      setTimeout(
+        typeNextChar,
+        350
+      );
     }
 
     function triggerPlanetIntro() {
-      if (introPlayed) return;
-      introActive = true;
-      introStart = performance.now();
-      introDuration = 1400;
 
-      introOverlay.classList.remove('active');
-      if (introVideo) {
-        introVideo.classList.add('fade-out');
+      if (introPlayed) {
+        return;
       }
 
-      setTimeout(() => {
-        introActive = false;
-        introPlayed = true;
-        if (introVideo && introVideo.parentNode) {
-          introVideo.parentNode.removeChild(introVideo);
-        }
-        if (introOverlay && introOverlay.parentNode) {
-          introOverlay.parentNode.removeChild(introOverlay);
-        }
-      }, introDuration + 200 + (planets.length * 80));
+      introActive = true;
+
+      introStart =
+        performance.now();
+
+      introDuration = 1400;
+
+      introOverlay.classList.remove(
+        'active'
+      );
+
+      if (introVideo) {
+
+        introVideo.classList.add(
+          'fade-out'
+        );
+      }
+
+      setTimeout(
+        () => {
+
+          introActive = false;
+
+          introPlayed = true;
+
+          if (
+            introVideo &&
+            introVideo.parentNode
+          ) {
+
+            introVideo.parentNode
+              .removeChild(
+                introVideo
+              );
+          }
+
+          if (
+            introOverlay &&
+            introOverlay.parentNode
+          ) {
+
+            introOverlay.parentNode
+              .removeChild(
+                introOverlay
+              );
+          }
+
+        },
+        introDuration +
+        200 +
+        (
+          planets.length *
+          80
+        )
+      );
     }
 
-    launchBtn.addEventListener('click', triggerPlanetIntro);
+    launchBtn.addEventListener(
+      'click',
+      triggerPlanetIntro
+    );
 
     if (introVideo) {
-      introVideo.addEventListener('ended', showPopUp);
-      introVideo.addEventListener('timeupdate', () => {
-        if (!modalOpened && introVideo.duration && introVideo.currentTime >= introVideo.duration - 0.25) {
+
+      introVideo.addEventListener(
+        'ended',
+        showPopUp
+      );
+
+      introVideo.addEventListener(
+        'timeupdate',
+        () => {
+
+          if (
+            !modalOpened &&
+            introVideo.duration &&
+            introVideo.currentTime >=
+              introVideo.duration -
+              0.25
+          ) {
+
+            showPopUp();
+          }
+        }
+      );
+
+      introVideo.addEventListener(
+        'click',
+        () => {
+
+          introVideo.pause();
+
           showPopUp();
         }
-      });
-      introVideo.addEventListener('click', () => {
-        introVideo.pause();
-        showPopUp();
-      });
+      );
     }
+
   </script>
+
 </body>
 </html>
