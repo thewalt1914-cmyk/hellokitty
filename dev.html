@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hope You Are Having a Good Week</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#fff9ef; --muted:#6b6b6b; --ink:#0b0b0b; --accent:#ffd54f; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      background:#0b0a12;
+      font-family: 'Comic Neue', system-ui, sans-serif;
+      color:var(--ink);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      transition:background 600ms cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-x:hidden;
+    }
+    /* subtle comic halftone overlay */
+    body::before{
+      content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.18;
+      background-image:radial-gradient(circle at 10% 10%, rgba(255,255,255,.15) 1px, transparent 1px);
+      background-size:10px 10px;
+    }
+    #scene { 
+      position:fixed; 
+      inset:0; 
+      z-index:0; 
+      width:100%; 
+      height:100%; 
+      pointer-events:none;
+    }
+    .worlds { position:relative; z-index:2; }
+    /* comic panel card */
+    .world { min-height:100svh; display:flex; align-items:center; padding:clamp(28px,7vw,112px); pointer-events:none; }
+    .world:nth-child(even) { justify-content:flex-end; text-align:right; }
+    .copy { 
+      width:min(540px,78vw); 
+      opacity:0; 
+      transform:translateY(40px) scale(0.95); 
+      transition:opacity .45s ease, transform .6s cubic-bezier(.16,1,.3,1); 
+      pointer-events:auto;
+      background:#fff; 
+      padding:clamp(20px,4vw,36px); 
+      border:8px solid var(--ink); 
+      box-shadow:16px 16px 0 rgba(0,0,0,0.85); 
+      border-radius:6px;
+    }
+    .world.active .copy { opacity:1; transform:translateY(0) scale(1); }
+
+    /* big comic title */
+    h1,h2{ margin:0; font-family:'Bangers', 'Comic Neue', Georgia, serif; color:var(--ink); line-height:.95; text-wrap:balance; text-shadow: 3px 3px 0 #fff, 6px 6px 0 rgba(0,0,0,.9); }
+    h1{ font-size:clamp(2.4rem,6vw,4.8rem); }
+    h2{ font-size:clamp(2rem,5vw,3.8rem); }
+    /* speech-bubble paragraphs */
+    .copy p{ margin:16px 0 0; background:#f9f9f9; border:4px solid var(--ink); padding:14px; border-radius:12px; color:var(--ink); position:relative; font-size:1.05rem; box-shadow:5px 5px 0 rgba(0,0,0,.08); line-height: 1.4; }
+    .copy p::after{ content:''; position:absolute; left:36px; bottom:-16px; width:0; height:0; border-left:14px solid transparent; border-right:14px solid transparent; border-top:16px solid #f9f9f9; }
+    .copy p::before{ content:''; position:absolute; left:34px; bottom:-22px; width:0; height:0; border-left:16px solid transparent; border-right:16px solid transparent; border-top:20px solid var(--ink); z-index:-1; }
+    .world:nth-child(even) .copy p::after{ left:auto; right:36px; }
+    .world:nth-child(even) .copy p::before{ left:auto; right:34px; }
+    
+    /* full-screen intro video with sleek fade */
+    #introVideo{ 
+      position:fixed; 
+      inset:0; 
+      z-index:10; 
+      width:100%; 
+      height:100%; 
+      object-fit:cover; 
+      display:block; 
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s ease;
+      cursor: pointer;
+    }
+    #introVideo.fade-out {
+      opacity: 0 !important;
+      transform: scale(1.08);
+      filter: blur(10px);
+      pointer-events: none;
+    }
+
+    /* Pop-up Overlay & Typewriter Modal */
+    #introOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(11, 10, 18, 0.65);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    #introOverlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .intro-modal {
+      width: min(560px, 86vw);
+      background: #fff;
+      border: 8px solid var(--ink);
+      box-shadow: 18px 18px 0 rgba(0,0,0,0.9);
+      border-radius: 8px;
+      padding: clamp(24px, 5vw, 40px);
+      text-align: center;
+      transform: translateY(20px) scale(0.95);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #introOverlay.active .intro-modal {
+      transform: translateY(0) scale(1);
+    }
+    .typewriter-text {
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-family: 'Bangers', cursive, sans-serif;
+      letter-spacing: 0.05em;
+      line-height: 1.3;
+      margin: 16px 0 24px;
+      min-height: 2.6em;
+      color: var(--ink);
+      text-shadow: 2px 2px 0 var(--accent);
+    }
+    .typewriter-cursor {
+      display: inline-block;
+      width: 4px;
+      height: 1.1em;
+      background: var(--ink);
+      vertical-align: middle;
+      margin-left: 4px;
+      animation: blink 0.75s step-start infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .space-btn {
+      appearance: none;
+      border: 4px solid var(--ink);
+      background: var(--accent);
+      color: var(--ink);
+      font-family: 'Bangers', cursive, sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
+      padding: 12px 32px;
+      cursor: pointer;
+      border-radius: 6px;
+      box-shadow: 6px 6px 0 var(--ink);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.4s ease;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+    }
+    .space-btn.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .space-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0 var(--ink);
+      background: #ffeb60;
+    }
+    .space-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+    
+    .nav { position:fixed; z-index:3; right:24px; top:50%; display:grid; gap:12px; transform:translateY(-50%); }
+    .nav a { width:14px; height:14px; border:3px solid #fff; border-radius:50%; opacity:.4; background:transparent; transition:all .25s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 8px rgba(0,0,0,0.5); }
+    .nav a.active { opacity:1; background:#ffd54f; border-color:#000; transform:scale(1.4); box-shadow: 0 0 12px #ffd54f; }
+    @media (max-width:700px){ 
+      .world,.world:nth-child(even){ justify-content:center; text-align:left; align-items: flex-end; padding-bottom: 50px; } 
+      .copy,.world.active .copy{ transform:translateY(0); width:92vw; } 
+    }
+  </style>
+</head>
+<body>
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <video id="introVideo" src="garden.mp4" muted playsinline autoplay aria-hidden="true"></video>
+
+  <!-- Typewriter Pop-up Modal -->
+  <div id="introOverlay">
+    <div class="intro-modal">
+      <div class="typewriter-text"><span id="typedTarget"></span><span class="typewriter-cursor"></span></div>
+      <button class="space-btn" id="launchBtn">🚀 Launch To Space</button>
+    </div>
+  </div>
+
+  <main class="worlds">
+    <!-- Planet 1: Sunday Nap -->
+    <section class="world active" id="sunday" data-image="ineedmydiabolicalnaptime.png" data-color="#f5df8d" data-neon="#ffeb60" data-bg="#161205" style="--accent:#fff0aa">
+      <div class="copy">
+        <h1>The Diabolical<br>Nap</h1>
+        <p><em>Shutting down all biological functions for an aggressive mid-day coma. Recovery is non-negotiable.</em></p>
+      </div>
+    </section>
+
+    <!-- Planet 2: Beef & Rice Prep -->
+    <section class="world" id="monday" data-image="youknowwhattimeitis.png" data-color="#7288c9" data-neon="#4d88ff" data-bg="#090f21" style="--accent:#aabaff">
+      <div class="copy">
+        <h2>Ground Beef & Rice<br>Tactical Prep</h2>
+        <p><em>Cooking an apocalyptic quantity of ground beef and jasmine rice to sustain life for the next seven days.</em></p>
+      </div>
+    </section>
+
+    <!-- Planet 3: Nap in Laundry Pile -->
+    <section class="world" id="tuesday" data-image="imightaswelltakeanothernapwhileimhere.png" data-color="#e34242" data-neon="#ff3355" data-bg="#1a0407" style="--accent:#ff8585">
+      <div class="copy">
+        <h2>The Laundry Pile<br>Nap Expansion</h2>
+        <p><em>Since I'm already sitting in the giant mountain of clean clothes, I might as well take another nap right here.</em></p>
+      </div>
+    </section>
+
+    <!-- Planet 4: Weekend Near & CaseOH -->
+    <section class="world" id="thursday" data-image="whothehellputschristmaslightsontherebed.png" data-color="#69d6a6" data-neon="#00ffaa" data-bg="#041710" style="--accent:#9ff2c7">
+      <div class="copy">
+        <h2>Weekend Radar:<br>CaseOH Stream Time</h2>
+        <p><em>The weekend is almost here—time to turn on the Christmas lights, lock in, and see what CaseOH is screaming at tonight.</em></p>
+      </div>
+    </section>
+
+    <!-- Planet 5: Fold Game Challenge -->
+    <section class="world" id="friday" data-image="yea thats never getting done.png" data-color="#ffb84a" data-neon="#ffaa00" data-bg="#1f1100" style="--accent:#ffdb8e">
+      <div class="copy">
+        <h2>The Fold Game<br>Investigation</h2>
+        <p><em>He claims his fold game is elite, but that towering mountain of shirts says otherwise. We will see.</em></p>
+      </div>
+    </section>
+
+    <!-- Planet 6: Jolly Ollies 4 AM -->
+    <section class="world" id="saturday" data-image="nevergoingtojollyolliestill4amagain.png" data-color="#ff9b74" data-neon="#ff5533" data-bg="#1e0c08" style="--accent:#ffc0a9">
+      <div class="copy">
+        <h2>4:00 AM Jolly Ollies<br>Evacuation</h2>
+        <p><em>Stumbling out of Jolly Ollies at 4:00 in the morning wondering how a couple dart matches turned into an all-night marathon.</em></p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="nav" aria-label="Day navigation">
+    <a class="active" href="#sunday" aria-label="Nap"></a>
+    <a href="#monday" aria-label="Meal Prep"></a>
+    <a href="#tuesday" aria-label="Laundry Nap"></a>
+    <a href="#thursday" aria-label="CaseOH"></a>
+    <a href="#friday" aria-label="Fold Game"></a>
+    <a href="#saturday" aria-label="Jolly Ollies"></a>
+  </nav>
+
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js';
+
+    const canvas = document.querySelector('#scene');
+    const sections = [...document.querySelectorAll('.world')];
+    const dots = [...document.querySelectorAll('.nav a')];
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 100);
+    camera.position.z = 13;
+
+    // Background Twinkling Stardust
+    const starsGeo = new THREE.BufferGeometry();
+    const starCount = 800;
+    const starCoords = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCoords.length; i += 3) {
+      starCoords[i] = (Math.random() - 0.5) * 50;
+      starCoords[i + 1] = (Math.random() - 0.5) * 35;
+      starCoords[i + 2] = -Math.random() * 35;
+    }
+    starsGeo.setAttribute('position', new THREE.BufferAttribute(starCoords, 3));
+    const starMat = new THREE.PointsMaterial({ color: '#ffffff', size: 0.055, transparent: true, opacity: 0.85 });
+    scene.add(new THREE.Points(starsGeo, starMat));
+
+    // Neon Glow Texture Generator
+    function createNeonTexture(hexColor) {
+      const c = document.createElement('canvas');
+      c.width = 512;
+      c.height = 512;
+      const ctx = c.getContext('2d');
+      const grad = ctx.createRadialGradient(256, 256, 170, 256, 256, 256);
+      grad.addColorStop(0, hexColor);
+      grad.addColorStop(0.35, hexColor);
+      grad.addColorStop(0.7, hexColor.replace(')', ', 0.4)').replace('rgb', 'rgba'));
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 512, 512);
+      return new THREE.CanvasTexture(c);
+    }
+
+    const textureLoader = new THREE.TextureLoader();
+    function makePlanet(ref, fallbackColor) {
+      if (!ref) return { type: 'none', material: new THREE.MeshBasicMaterial({ color: fallbackColor }) };
+      const tex = textureLoader.load(ref, (t) => {
+        t.colorSpace = THREE.SRGBColorSpace;
+      });
+      tex.flipY = true;
+      tex.colorSpace = THREE.SRGBColorSpace;
+      return { type: 'image', material: new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }) };
+    }
+
+    // Build planet meshes with neon glow rings
+    const planets = sections.map((section, index) => {
+      const ref = section.dataset.image || '';
+      const baseColor = new THREE.Color(section.dataset.color || '#ffffff');
+      const neonColor = section.dataset.neon || '#00ffff';
+      
+      const p = makePlanet(ref, baseColor);
+      const group = new THREE.Group();
+
+      const glowMat = new THREE.SpriteMaterial({
+        map: createNeonTexture(neonColor),
+        color: new THREE.Color(neonColor),
+        transparent: true,
+        opacity: 0.85,
+        blending: THREE.AdditiveBlending
+      });
+      const glowSprite = new THREE.Sprite(glowMat);
+      glowSprite.scale.set(8.2, 8.2, 1);
+      glowSprite.position.z = -0.15;
+      group.add(glowSprite);
+
+      const ringGeo = new THREE.RingGeometry(3.1, 3.25, 64);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: new THREE.Color(neonColor),
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.95,
+        blending: THREE.AdditiveBlending
+      });
+      const orbitRing = new THREE.Mesh(ringGeo, ringMat);
+      orbitRing.position.z = -0.05;
+      group.add(orbitRing);
+
+      const planetMesh = new THREE.Mesh(new THREE.CircleGeometry(3.0, 96), p.material);
+      group.add(planetMesh);
+
+      group.scale.setScalar(4.5);
+      scene.add(group);
+
+      return { 
+        group, 
+        glowSprite, 
+        orbitRing, 
+        index, 
+        neonColor: new THREE.Color(neonColor)
+      };
+    });
+
+    let target = 0, smooth = 0, active = -1;
+    let scrollVelocity = 0, lastSmooth = 0;
+
+    function update() {
+      target = Math.max(0, Math.min(sections.length - 1, scrollY / innerHeight));
+      const next = Math.round(target);
+      sections.forEach((s, i) => s.classList.toggle('active', i === next));
+      dots.forEach((d, i) => d.classList.toggle('active', i === next));
+      
+      if (sections[next]) {
+        document.body.style.background = sections[next].dataset.bg;
+      }
+      active = next;
+    }
+
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+      update();
+    });
+    update();
+
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const easeOutBack = (t) => {
+      const c1 = 1.6;
+      const c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    };
+
+    let introActive = false, introStart = 0, introDuration = 1400, introPlayed = false;
+    const introVideo = document.getElementById('introVideo');
+    const introOverlay = document.getElementById('introOverlay');
+    const typedTarget = document.getElementById('typedTarget');
+    const launchBtn = document.getElementById('launchBtn');
+
+    function draw() {
+      requestAnimationFrame(draw);
+      
+      lastSmooth = smooth;
+      smooth += (target - smooth) * 0.08;
+      scrollVelocity = Math.abs(smooth - lastSmooth) * 50;
+
+      const now = performance.now();
+      const timeSec = now * 0.002;
+
+      starMat.opacity = 0.65 + Math.sin(timeSec * 2) * 0.25;
+
+      planets.forEach(({ group, glowSprite, orbitRing, index, neonColor }) => {
+        const offset = smooth - index;
+        const clamped = Math.max(-1, Math.min(1, offset));
+        const distance = Math.abs(clamped);
+
+        const baseY = Math.sin(clamped * Math.PI * 0.5) * 3.2;
+        group.position.set(-clamped * 10.5, baseY, -distance * 5.5);
+
+        const baseScale = Math.max(0.4, 1 - distance * 0.42);
+
+        if (!introPlayed) {
+          if (introActive) {
+            const delay = index * 90;
+            const localT = clamp((now - introStart - delay) / introDuration, 0, 1);
+            const ease = easeOutBack(localT);
+            const finalScale = 4.5 + (baseScale - 4.5) * ease;
+            group.scale.setScalar(Math.max(0.01, finalScale));
+            group.rotation.z = (1 - ease) * 0.8 * (index % 2 ? 1 : -1);
+          } else {
+            group.scale.setScalar(4.5);
+          }
+        } else {
+          group.scale.setScalar(baseScale);
+          group.rotation.z = 0;
+        }
+
+        // Orbit ring rotation and pulsing
+        orbitRing.rotation.z = timeSec * (index % 2 === 0 ? 1 : -1) + smooth * 2;
+        const ringPulse = 1 + Math.sin(timeSec * 4 + index) * 0.04 + scrollVelocity * 0.08;
+        orbitRing.scale.set(ringPulse, ringPulse, 1);
+        orbitRing.material.opacity = clamp(0.5 + scrollVelocity * 0.6 - distance * 0.4, 0.2, 1.0);
+
+        // Neon Aura expansion
+        const glowPulse = 8.0 + Math.sin(timeSec * 3 + index) * 0.4 + scrollVelocity * 2.5;
+        glowSprite.scale.set(glowPulse, glowPulse, 1);
+        glowSprite.material.opacity = clamp((1 - distance * 0.7) * (0.6 + scrollVelocity * 0.5), 0.15, 1.0);
+
+        if (scrollVelocity > 0.1) {
+          glowSprite.material.color.setHSL((neonColor.getHSL({h:0,s:0,l:0}).h + scrollVelocity * 0.05) % 1, 1, 0.6);
+        } else {
+          glowSprite.material.color.copy(neonColor);
+        }
+
+        group.visible = distance < 1.35;
+      });
+
+      renderer.render(scene, camera);
+    }
+    draw();
+
+    // Typewriter effect controller
+    let modalOpened = false;
+    const messageText = "Hope your week is going well... Let's make it even better!";
+
+    function showPopUp() {
+      if (modalOpened || introPlayed) return;
+      modalOpened = true;
+      introOverlay.classList.add('active');
+
+      let charIdx = 0;
+      function typeNextChar() {
+        if (charIdx < messageText.length) {
+          typedTarget.textContent += messageText.charAt(charIdx);
+          charIdx++;
+          setTimeout(typeNextChar, 38);
+        } else {
+          launchBtn.classList.add('show');
+        }
+      }
+      setTimeout(typeNextChar, 400);
+    }
+
+    // Launch to planets transition
+    function triggerPlanetIntro() {
+      if (introPlayed) return;
+      introActive = true;
+      introStart = performance.now();
+      introDuration = 1400;
+
+      introOverlay.classList.remove('active');
+      if (introVideo) {
+        introVideo.classList.add('fade-out');
+      }
+
+      setTimeout(() => {
+        introActive = false;
+        introPlayed = true;
+        if (introVideo && introVideo.parentNode) {
+          introVideo.parentNode.removeChild(introVideo);
+        }
+        if (introOverlay && introOverlay.parentNode) {
+          introOverlay.parentNode.removeChild(introOverlay);
+        }
+      }, introDuration + 200 + (planets.length * 90));
+    }
+
+    launchBtn.addEventListener('click', triggerPlanetIntro);
+
+    if (introVideo) {
+      introVideo.addEventListener('ended', showPopUp);
+      introVideo.addEventListener('timeupdate', () => {
+        if (!modalOpened && introVideo.duration && introVideo.currentTime >= introVideo.duration - 0.25) {
+          showPopUp();
+        }
+      });
+      introVideo.addEventListener('click', () => {
+        introVideo.pause();
+        showPopUp();
+      });
+    }
+  </script>
+</body>
+</html>
